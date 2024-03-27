@@ -4,6 +4,16 @@ public class Ejercicio_1_lista {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		MySimpleLinkedList<String> lista3 = new MySimpleLinkedList<String>();
+		lista3.insertFront("cafe");
+		lista3.insertFront("f");
+		lista3.insertFront("DatoG");
+		lista3.insertFront("Pera");
+		MySimpleLinkedList<String> lista2 = new MySimpleLinkedList<String>();
+		lista2.insertFront("rojo");
+		lista2.insertFront("Pera");
+		lista2.insertFront("pablo");
+		lista2.insertFront("datoG");
 		MySimpleLinkedList<String> lista = new MySimpleLinkedList<String>();
 		lista.insertFront("datoG");
 		lista.insertFront("datoManzana");
@@ -22,6 +32,11 @@ public class Ejercicio_1_lista {
 	for(String i:lista) {
 		System.out.println(i);
 	}
+	
+	System.out.println(lista3.ordernarListasComun(lista2, lista3));
+	
+	
+	
 	}
 
 }

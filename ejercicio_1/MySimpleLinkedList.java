@@ -84,27 +84,60 @@ public class MySimpleLinkedList<T> implements Iterable<T> {
 		
 	}
 	
-	public void ordernarListasComun(MySimpleLinkedList<T> l1,MySimpleLinkedList<T> l2) {
+	public MySimpleLinkedList<T> ordernarListasComun(MySimpleLinkedList<T> l1,MySimpleLinkedList<T> l2) {
 		
-	int pos1=0;
-	int pos2=0;
-	Node<T> aux1 =null;
-	aux1.setInfo(l1.extractFront());
-	Node<T> aux2 =null;
-	aux2.setInfo(l2.extractFront());
-		while(aux1.getNext()!=null) {
-			
-			if(aux1.getInfo()==aux2.getInfo()) {
-				
+		int pos1=0;
+		int pos2=0;
+		Node<T> aux1 =new Node<T>();;
+		aux1.setInfo(l1.extractFront());
+		Node<T> aux2 = new Node<T>();
+		aux2.setInfo(l2.extractFront());
+		MySimpleLinkedList<T> listaOrdenada = new MySimpleLinkedList<T>();
+		
+			while(aux1.getNext()!=null) {
+	
+				while(aux2.getNext()!=null) {
+					if(aux1.getInfo()!=aux2.getInfo()) {
+						aux2 = aux2.getNext();
+					}
+					else {
+						listaOrdenada.insertarOrdenado(aux2.getInfo());
+					}
+				}
+				aux1 = aux1.getNext();
 			}
 			
-			pos1++;
+			return listaOrdenada;
+			
 		
-			while(false) {
-				
+	}
+	public void insertarOrdenado(T dato) {
+		Node<T> nuevo = new Node<T>();
+		nuevo.setInfo(dato);
+		if(this.first==null) {
+			this.first = nuevo;
+		}
+		else {
+			Node<T> anterior = null;
+			Node<T> aux = this.first;	
+			while((aux!=null)&&(dato == aux.getInfo())){
+				anterior = aux;
+				aux = aux.getNext();
+			}
+			if(anterior!=null && aux==null) {
+				anterior.setNext(nuevo);
+			}
+			else {
+				nuevo.setNext(aux);
+				if(aux == this.first) {
+					this.first = nuevo;
+				}
+				else {
+					anterior.setNext(nuevo);
+				}
 			}
 		}
-		
+		this.size++;
 	}
 
 	public int size() {
