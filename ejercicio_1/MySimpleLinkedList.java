@@ -1,14 +1,16 @@
 package ejercicio_1;
-
+import java.util.Comparator;
 import java.util.Iterator;
 
 public class MySimpleLinkedList<T> implements Iterable<T> {
 
 	private int size;
 	private Node<T> first;
+	private Comparator<T> comp;
 	
-	public MySimpleLinkedList() {
+	public MySimpleLinkedList(Comparator<T> comp) {
 		this.first = null;
+		this.comp= comp;
 	}
 	
 	public void insertFront(T info) {
@@ -20,10 +22,11 @@ public class MySimpleLinkedList<T> implements Iterable<T> {
 	}
 	
 	public T extractFront() {		
-		
-		return this.first.getInfo();
+		Node<T> tmp = new Node<T>(this.first.getInfo(),null);
+		this.first = this.first.getNext();
+		return tmp.getInfo();
 	}
-
+	
 	public boolean isEmpty() {
 		
 		return this.first.getInfo() == null;
@@ -80,31 +83,48 @@ public class MySimpleLinkedList<T> implements Iterable<T> {
 		return pos;
 	}
 	
-	public void insertOrdered(T info ) {
-		
+	public Node<T> getFirst() {
+		return this.first;
 	}
+	
+	
 	
 	public MySimpleLinkedList<T> ordernarListasComun(MySimpleLinkedList<T> l1,MySimpleLinkedList<T> l2) {
 		
-		int pos1=0;
-		int pos2=0;
 		Node<T> aux1 =new Node<T>();;
-		aux1.setInfo(l1.extractFront());
+		aux1 = (l1.getFirst());
 		Node<T> aux2 = new Node<T>();
-		aux2.setInfo(l2.extractFront());
-		MySimpleLinkedList<T> listaOrdenada = new MySimpleLinkedList<T>();
-		
+		aux2=(l2.getFirst());
+		MySimpleLinkedList<T> listaOrdenada = new MySimpleLinkedList<T>(this.comp);
 			while(aux1.getNext()!=null) {
+			
+				while((aux2.getNext()!=null)&&((comp.compare(aux1.getInfo(), aux2.getInfo())!=0))) {
 	
-				while(aux2.getNext()!=null) {
-					if(aux1.getInfo()!=aux2.getInfo()) {
 						aux2 = aux2.getNext();
+						
 					}
-					else {
-						listaOrdenada.insertarOrdenado(aux2.getInfo());
-					}
+				
+				if(comp.compare(aux1.getInfo(), aux2.getInfo())==0) {
+
+					listaOrdenada.insertarOrdenado(aux2.getInfo());
 				}
+				
 				aux1 = aux1.getNext();
+				
+				aux2=(l2.getFirst());
+			}
+			
+			if (aux1.getNext()==null) {
+				while((aux2.getNext()!=null)&&((comp.compare(aux1.getInfo(), aux2.getInfo())!=0))) {
+					
+					aux2 = aux2.getNext();
+					
+				}
+			
+			if(comp.compare(aux1.getInfo(), aux2.getInfo())==0) {
+
+				listaOrdenada.insertarOrdenado(aux2.getInfo());
+			}
 			}
 			
 			return listaOrdenada;
@@ -120,7 +140,7 @@ public class MySimpleLinkedList<T> implements Iterable<T> {
 		else {
 			Node<T> anterior = null;
 			Node<T> aux = this.first;	
-			while((aux!=null)&&(dato == aux.getInfo())){
+			while((aux!=null)&&(comp.compare(dato, aux.getInfo())<0)){
 				anterior = aux;
 				aux = aux.getNext();
 			}
@@ -138,6 +158,40 @@ public class MySimpleLinkedList<T> implements Iterable<T> {
 			}
 		}
 		this.size++;
+	}
+	
+public MySimpleLinkedList<T> ordernarListasPrimera(MySimpleLinkedList<T> l1,MySimpleLinkedList<T> l2) {
+		
+		Node<T> aux1 =new Node<T>();;
+		aux1 = (l1.getFirst());
+		Node<T> aux2 = new Node<T>();
+		aux2=(l2.getFirst());
+		MySimpleLinkedList<T> listaOrdenada = new MySimpleLinkedList<T>(this.comp);
+		boolean encontrado = false;
+	
+			while(aux1.getNext()!=null) {
+			
+				while((aux2.getNext()!=null)&&(encontrado!=true)) {
+						if((comp.compare(aux1.getInfo(), aux2.getInfo())==0)) {
+							encontrado= true;
+						}
+						aux2 = aux2.getNext();
+						
+					}
+				
+				if((encontrado!=true)) {
+					listaOrdenada.insertarOrdenado(aux1.getInfo());
+				}
+				
+				aux1 = aux1.getNext();
+				
+				aux2=(l2.getFirst());
+			encontrado=false;
+			}
+			
+			return listaOrdenada;
+			
+		
 	}
 
 	public int size() {
