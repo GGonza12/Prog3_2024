@@ -2,15 +2,14 @@ package ejercicio_1;
 import java.util.Comparator;
 import java.util.Iterator;
 
-public class MySimpleLinkedList<T> implements Iterable<T> {
+public class MySimpleLinkedList<T extends Comparable<T>> implements Iterable<T> {
 
 	private int size;
 	private Node<T> first;
-	private Comparator<T> comp;
 	
-	public MySimpleLinkedList(Comparator<T> comp) {
+	public MySimpleLinkedList() {
 		this.first = null;
-		this.comp= comp;
+
 	}
 	
 	public void insertFront(T info) {
@@ -95,16 +94,16 @@ public class MySimpleLinkedList<T> implements Iterable<T> {
 		aux1 = (l1.getFirst());
 		Node<T> aux2 = new Node<T>();
 		aux2=(l2.getFirst());
-		MySimpleLinkedList<T> listaOrdenada = new MySimpleLinkedList<T>(this.comp);
+		MySimpleLinkedList<T> listaOrdenada = new MySimpleLinkedList<T>();
 			while(aux1.getNext()!=null) {
 			
-				while((aux2.getNext()!=null)&&((comp.compare(aux1.getInfo(), aux2.getInfo())!=0))) {
+				while((aux2.getNext()!=null)&&((aux1.getInfo().compareTo(aux2.getInfo()))!=0)) {
 	
 						aux2 = aux2.getNext();
 						
 					}
 				
-				if(comp.compare(aux1.getInfo(), aux2.getInfo())==0) {
+				if((aux1.getInfo().compareTo(aux2.getInfo()))==0) {
 
 					listaOrdenada.insertarOrdenado(aux2.getInfo());
 				}
@@ -115,13 +114,12 @@ public class MySimpleLinkedList<T> implements Iterable<T> {
 			}
 			
 			if (aux1.getNext()==null) {
-				while((aux2.getNext()!=null)&&((comp.compare(aux1.getInfo(), aux2.getInfo())!=0))) {
+				while((aux2.getNext()!=null)&&((aux1.getInfo().compareTo(aux2.getInfo()))!=0)) {
 					
 					aux2 = aux2.getNext();
 					
 				}
-			
-			if(comp.compare(aux1.getInfo(), aux2.getInfo())==0) {
+				if((aux1.getInfo().compareTo(aux2.getInfo()))==0) {
 
 				listaOrdenada.insertarOrdenado(aux2.getInfo());
 			}
@@ -140,7 +138,7 @@ public class MySimpleLinkedList<T> implements Iterable<T> {
 		else {
 			Node<T> anterior = null;
 			Node<T> aux = this.first;	
-			while((aux!=null)&&(comp.compare(dato, aux.getInfo())<0)){
+			while((aux!=null)&&(dato.compareTo(aux.getInfo())<0)){
 				anterior = aux;
 				aux = aux.getNext();
 			}
@@ -166,13 +164,13 @@ public MySimpleLinkedList<T> ordernarListasPrimera(MySimpleLinkedList<T> l1,MySi
 		aux1 = (l1.getFirst());
 		Node<T> aux2 = new Node<T>();
 		aux2=(l2.getFirst());
-		MySimpleLinkedList<T> listaOrdenada = new MySimpleLinkedList<T>(this.comp);
+		MySimpleLinkedList<T> listaOrdenada = new MySimpleLinkedList<T>();
 		boolean encontrado = false;
 	
 			while(aux1.getNext()!=null) {
 			
 				while((aux2.getNext()!=null)&&(encontrado!=true)) {
-						if((comp.compare(aux1.getInfo(), aux2.getInfo())==0)) {
+						if((aux1.getInfo().compareTo(aux2.getInfo()))==0) {
 							encontrado= true;
 						}
 						aux2 = aux2.getNext();
@@ -193,6 +191,31 @@ public MySimpleLinkedList<T> ordernarListasPrimera(MySimpleLinkedList<T> l1,MySi
 			
 		
 	}
+
+public MySimpleLinkedList<T> ordernarListasOrdenadasComun(MySimpleLinkedList<T> l1,MySimpleLinkedList<T> l2) {
+	
+	MySimpleLinkedList<T> listaOrdenada = new MySimpleLinkedList<T>();
+	IteradorLista<T> iter1 = (IteradorLista<T>) l1.iterator();
+	IteradorLista<T> iter2 = (IteradorLista<T>) l2.iterator();
+
+     while((iter1.hasNext())&&(iter2.hasNext())) {
+    	 if(iter2.valor().compareTo(iter1.valor())>0) {
+    		 iter2.next();
+    	 }
+    	 else if(iter2.valor().compareTo(iter1.valor())<0) {
+    		 iter1.next();
+    	 }
+    	 else if (iter1.valor().compareTo(iter2.valor())==0) {
+    		 System.out.println("encotrado");
+    		 listaOrdenada.insertFront(iter1.valor());
+    			 iter2.next();
+        		 iter1.next();
+    	
+    	 }
+     }
+	
+	return listaOrdenada;
+}
 
 	public int size() {
 		return this.size;

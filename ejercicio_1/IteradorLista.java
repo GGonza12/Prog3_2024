@@ -23,6 +23,10 @@ public class IteradorLista<T> implements Iterator<T> {
 		T valor = cursor.getNext().getInfo();
 		return valor;
 	}
+	public T valor() {
+		T valor = cursor.getInfo();
+		return valor;
+	}
 	
 	
 }
