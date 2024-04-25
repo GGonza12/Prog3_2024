@@ -1,4 +1,4 @@
-package ejercicio_1;
+package practico_1;
 
 public class Node<T> {
 

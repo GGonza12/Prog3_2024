@@ -1,8 +1,6 @@
-package ejercicio_1;
+package practico_1;
 
-import java.util.Comparator;
-
-public class Ejercicio_1_lista {
+ class Ejercicio_1_lista {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

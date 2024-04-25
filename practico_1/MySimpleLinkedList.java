@@ -1,5 +1,4 @@
-package ejercicio_1;
-import java.util.Comparator;
+package practico_1;
 import java.util.Iterator;
 
 public class MySimpleLinkedList<T extends Comparable<T>> implements Iterable<T> {
